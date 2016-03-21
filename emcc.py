@@ -1806,7 +1806,7 @@ There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR P
     #src = re.sub(r'\n+[ \n]*\n+', '\n', src)
     #open(final, 'w').write(src)
 
-    # Bundle symbold data in with the cyberdwarf file
+    # Bundle symbol data in with the cyberdwarf file
     if shared.Settings.CYBERDWARF:
         execute([shared.PYTHON, shared.path_from_root('tools', 'emdebug_cd_merger.py'), target + '.cd', target+'.symbols'])
 

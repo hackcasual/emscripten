@@ -10,8 +10,12 @@ def run():
     with open(args[0]) as cd_f:
         cd_data = json.load(cd_f)
 
-    with open(args[1]) as symbol_f:
-        symbol_list = {x[0]:x[2] for x in [z.strip().partition(":") for z in symbol_f.readlines() if len(z) > 0]}
+    try:
+        with open(args[1]) as symbol_f:
+            symbol_list = {x[0]:x[2] for x in [z.strip().partition(":") for z in symbol_f.readlines() if len(z) > 0]}
+    except IOError as e:
+        # If there's no symbol file, use an empty one
+        symbol_list = {}
 
     cd_data['cyberdwarf']['function_name_map'] = symbol_list
 

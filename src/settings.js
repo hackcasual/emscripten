@@ -737,7 +737,7 @@ var EVAL_CTORS = 0; // This tries to evaluate global ctors at compile-time, appl
                     // further code, so it only tries to optimize ctors with lowest
                     // priority. We do know that, and can optimize all the ctors.
 
-var CYBERDWARF = 0; // disabled by default
+var CYBERDWARF = 0; // see http://kripken.github.io/emscripten-site/docs/debugging/CyberDWARF.html
 
 var BUNDLED_CD_DEBUG_FILE = ""; // Path to the CyberDWARF debug file passed to the compiler
 

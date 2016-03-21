@@ -1887,7 +1887,7 @@ Module['FS_createPreloadedFile'] = FS.createPreloadedFile;
 #endif
 
 #if CYBERDWARF
-var emDebugCDFile = '{{{ BUNDLED_CD_DEBUG_FILE }}}';
+var cyberDWARFFile = '{{{ BUNDLED_CD_DEBUG_FILE }}}';
 #endif
 
 // === Body ===

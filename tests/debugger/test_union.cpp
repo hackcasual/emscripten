@@ -20,14 +20,14 @@ void test_1() {
   tb.f = 13.37;
 
   EM_ASM_INT({
-    var decoded = Module['emdebugger_heap_printer'].decode_from_stack($0, "tb", 100)["union TestBase"];
+    var decoded = Module['cyberdwarf'].decode_from_stack($0, "tb", 100)["union TestBase"];
     console.log(JSON.stringify(decoded, null, "\t"));
   }, &tb);
 
   tb.i = 1337;
 
   EM_ASM_INT({
-    var decoded = Module['emdebugger_heap_printer'].decode_from_stack($0, "tb", 1)["union TestBase"];
+    var decoded = Module['cyberdwarf'].decode_from_stack($0, "tb", 1)["union TestBase"];
     console.log(JSON.stringify(decoded, null, "\t"));
   }, &tb);
 

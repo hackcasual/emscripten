@@ -57,7 +57,7 @@ void test_1() {
   tb.g[0][0] = 12345;
 
   EM_ASM_INT({
-    var decoded = Module['emdebugger_heap_printer'].decode_from_stack($0, "tb", 100)["struct TestBase"];
+    var decoded = Module['cyberdwarf'].decode_from_stack($0, "tb", 100)["struct TestBase"];
     test_assert("Found the answer", decoded["float : a"] - 42 < 1.0);
     test_assert("Found 'b'", decoded["char : b"] == 98);
     test_assert("Found null", decoded["char * : c"] == "null");
@@ -82,7 +82,7 @@ void test_2() {
   sos.ts->len = strlen(sos.ts->chars);
 
   EM_ASM_INT({
-    var decoded = Module['emdebugger_heap_printer'].decode_from_stack($0, "sos", 100)["struct StructOfStructs"];
+    var decoded = Module['cyberdwarf'].decode_from_stack($0, "sos", 100)["struct StructOfStructs"];
     test_assert("Found the answer", decoded["struct TestBase * : tb"]["float : a"] == 1337);
   }, &sos);
 

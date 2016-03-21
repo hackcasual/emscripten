@@ -241,8 +241,8 @@ def compiler_glue(metadata, settings, libraries, compiler_engine, temp_files, DE
         settings['NO_FILESYSTEM'] = 1
 
     if settings['CYBERDWARF']:
-      settings['DEFAULT_LIBRARY_FUNCS_TO_INCLUDE'].append("emdebug_Debugger")
-      settings['EXPORTED_FUNCTIONS'].append("emdebug_Debugger")
+      settings['DEFAULT_LIBRARY_FUNCS_TO_INCLUDE'].append("cyberdwarf_Debugger")
+      settings['EXPORTED_FUNCTIONS'].append("cyberdwarf_Debugger")
 
     # Integrate info from backend
     if settings['SIDE_MODULE']:
@@ -1297,7 +1297,7 @@ Runtime.registerFunctions(%(sigs)s, Module);
       assert('cyberdwarf_data' in metadata)
       cd_file_name = outfile.name + ".cd"
       with open(cd_file_name, "w") as cd_file:
-        json.dump({'cyberdwarf': metadata['cyberdwarf_data']}, cd_file)
+        json.dump({ 'cyberdwarf': metadata['cyberdwarf_data'] }, cd_file)
 
 def emscript_wasm_backend(infile, settings, outfile, libraries=None, compiler_engine=None,
                           temp_files=None, DEBUG=None):

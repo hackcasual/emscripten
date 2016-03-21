@@ -95,7 +95,7 @@ if (memoryInitializer) {
 #endif
 
 #if CYBERDWARF
-  Module['emdebugger_heap_printer'] = _emdebug_Debugger(emDebugCDFile);
+  Module['cyberdwarf'] = _cyberdwarf_Debugger(cyberDWARFFile);
 #endif
 
 function ExitStatus(status) {

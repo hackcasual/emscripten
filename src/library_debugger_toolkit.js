@@ -1,4 +1,4 @@
-var EMDebugHeapPrinter = function(cdFileLocation) {
+var CyberDWARFHeapPrinter = function(cdFileLocation) {
   var BASIC_TYPE = 0,
       DERIVED_TYPE = 1,
       COMPOSITE_TYPE = 2,
@@ -439,7 +439,7 @@ var EMDebugHeapPrinter = function(cdFileLocation) {
   function initialize_debugger(cb) {
     var cdFile;
     if (typeof Module['locateFile'] === 'function') {
-      emDebugCDFile = Module['locateFile'](cdFileLocation);
+      cdFileLocation = Module['locateFile'](cdFileLocation);
     } else if (Module['cdInitializerPrefixURL']) {
       cdFileLocation = Module['cdInitializerPrefixURL'] + cdFileLocation;
     }
@@ -447,16 +447,17 @@ var EMDebugHeapPrinter = function(cdFileLocation) {
       var data = Module['readBinary'](cdFileLocation);
       install_cyberdwarf(data);
     } else {
-      var applyEmDebugCDFile = function(data) {
-        install_cyberdwarf(data);
+      var applyCDFile = function(data) {
+        var decoder = new TextDecoder("utf8");
+        install_cyberdwarf(decoder.decode(data));
         console.info("Debugger ready");
         if (typeof(cb) !== "undefined") {
           cb();
         }
       }
       function doBrowserLoad() {
-        Module['readAsync'](cdFileLocation, applyEmDebugCDFile, function() {
-          throw 'could not load debug data ' + emDebugCDFile;
+        Module['readAsync'](cdFileLocation, applyCDFile, function() {
+          throw 'could not load debug data ' + cdFileLocation;
         });
       }
       // fetch it from the network ourselves
@@ -473,4 +474,4 @@ var EMDebugHeapPrinter = function(cdFileLocation) {
   };
 };
 
-mergeInto(LibraryManager.library, {"emdebug_Debugger": EMDebugHeapPrinter});
+mergeInto(LibraryManager.library, { "cyberdwarf_Debugger": CyberDWARFHeapPrinter });
