@@ -446,6 +446,7 @@ var CyberDWARFHeapPrinter = function(cdFileLocation) {
     if (ENVIRONMENT_IS_NODE || ENVIRONMENT_IS_SHELL) {
       var data = Module['readBinary'](cdFileLocation);
       install_cyberdwarf(data);
+      cb();
     } else {
       var applyCDFile = function(data) {
         var decoder = new TextDecoder("utf8");
