@@ -6335,11 +6335,16 @@ int main() {}
                                          use_hash_info=True)
 
   def test_cyberdwarf_pointers(self):
-    check_execute([PYTHON, EMCC, path_from_root('tests', 'debugger', 'test_pointers.cpp'), '-Oz', '-s', 'CYBERDWARF=1',
+    check_execute([PYTHON, EMCC, path_from_root('tests', 'debugger', 'test_pointers.cpp'), '-O1', '-s', 'CYBERDWARF=1',
+    '-std=c++11', '--pre-js', path_from_root('tests', 'debugger', 'test_preamble.js'), '-o', 'test_pointers.js' ], stderr=PIPE)
+    run_js('test_pointers.js', engine=NODE_JS)
+
+  def test_cyberdwarf_arrays(self):
+    check_execute([PYTHON, EMCC, path_from_root('tests', 'debugger', 'test_arrays.cpp'), '-O1', '-s', 'CYBERDWARF=1',
     '-std=c++11', '--pre-js', path_from_root('tests', 'debugger', 'test_preamble.js'), '-o', 'test_pointers.js' ], stderr=PIPE)
     run_js('test_pointers.js', engine=NODE_JS)
 
   def test_cyberdwarf_union(self):
-    check_execute([PYTHON, EMCC, path_from_root('tests', 'debugger', 'test_union.cpp'), '-Oz', '-s', 'CYBERDWARF=1',
+    check_execute([PYTHON, EMCC, path_from_root('tests', 'debugger', 'test_union.cpp'), '-O1', '-s', 'CYBERDWARF=1',
     '-std=c++11', '--pre-js', path_from_root('tests', 'debugger', 'test_preamble.js'), '-o', 'test_union.js' ], stderr=PIPE)
     run_js('test_union.js', engine=NODE_JS)

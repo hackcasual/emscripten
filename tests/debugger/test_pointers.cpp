@@ -57,6 +57,8 @@ void test_1() {
   tb.g[0][0] = 12345;
 
   EM_ASM_INT({
+    var dec1 = Module['cyberdwarf'].decode_from_stack($0, "tb", 100);
+    console.error(dec1);
     var decoded = Module['cyberdwarf'].decode_from_stack($0, "tb", 100)["struct TestBase"];
     test_assert("Found the answer", decoded["float : a"] - 42 < 1.0);
     test_assert("Found 'b'", decoded["char : b"] == 98);
