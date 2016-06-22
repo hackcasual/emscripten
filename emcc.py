@@ -1166,6 +1166,8 @@ There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR P
       shared.Settings.BUNDLED_CD_DEBUG_FILE = target + ".cd"
       js_libraries.append(shared.path_from_root('src', 'library_cyberdwarf.js'))
       js_libraries.append(shared.path_from_root('src', 'library_debugger_toolkit.js'))
+    else:
+      newargs.append('-g')
 
     if tracing:
       if shared.Settings.ALLOW_MEMORY_GROWTH:
@@ -1421,7 +1423,7 @@ There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR P
 
     # Optimize, if asked to
     if not LEAVE_INPUTS_RAW:
-      link_opts = [] if debug_level >= 4 or shared.Settings.CYBERDWARF else ['-strip-debug'] # remove LLVM debug if we are not asked for it
+      link_opts = [] if debug_level >= 4 or shared.Settings.CYBERDWARF else [] # remove LLVM debug if we are not asked for it
       if not shared.Settings.ASSERTIONS:
         link_opts += ['-disable-verify']
 

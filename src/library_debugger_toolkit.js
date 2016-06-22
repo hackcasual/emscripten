@@ -483,6 +483,7 @@ var CyberDWARFHeapPrinter = function(cdFileLocation) {
   }
 
   function type_id_to_type_descriptor(type_id, ptr, dit) {
+    dit = true;
     if (!isNaN(+type_id)) {
       return cyberdwarf["types"][type_id];
     }
@@ -629,6 +630,7 @@ var CyberDWARFHeapPrinter = function(cdFileLocation) {
       if (visualizers[v].can_visualize(typed_var)) {
         return visualizers[v];
       }
+    }
     return null;
   }
 
@@ -669,6 +671,27 @@ var CyberDWARFHeapPrinter = function(cdFileLocation) {
     }
   });
 
+  var var_tracker = {};
+
+  function var_tracker_logger(a, b, c, d, e) {
+    var_tracker[e] = [a, b, c, d, e];
+  }
+
+  function enable_var_tracker() {
+    Module["cyberdwarf_debug_constant"] = var_tracker_logger;
+    Module["cyberdwarf_debug_value"] = var_tracker_logger;
+  }
+
+  function disable_var_tracker() {
+    Module["cyberdwarf_debug_constant"] = false;
+    Module["cyberdwarf_debug_value"] = false;
+  }
+
+  function dump_tracked_var(name) {
+    console.log(var_tracker[name]);
+    console.log(JSON.stringify(pretty_print_from_typename(var_tracker[name][0], var_tracker[name][1], 4, var_tracker[name][3]), null, "  "));
+  }
+
   return {
     "decode_from_stack": stack_decoder,
     "initialize_debugger": initialize_debugger,
@@ -676,7 +699,10 @@ var CyberDWARFHeapPrinter = function(cdFileLocation) {
     "decode_var_by_var_name": pretty_print_to_object,
     "decode_var_by_type_name": pretty_print_from_typename,
     "register_visualizer": register_visualizer,
-    "get_intrinsic_data": get_intrinsic_data
+    "get_intrinsic_data": get_intrinsic_data,
+    "enable_var_tracker": enable_var_tracker,
+    "disable_var_tracker": disable_var_tracker,
+    "dump_tracked_var": dump_tracked_var
   };
 };
 

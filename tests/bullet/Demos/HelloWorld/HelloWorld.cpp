@@ -4,8 +4,8 @@ Copyright (c) 2003-2007 Erwin Coumans  http://continuousphysics.com/Bullet/
 
 This software is provided 'as-is', without any express or implied warranty.
 In no event will the authors be held liable for any damages arising from the use of this software.
-Permission is granted to anyone to use this software for any purpose, 
-including commercial applications, and to alter it and redistribute it freely, 
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it freely,
 subject to the following restrictions:
 
 1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
@@ -16,11 +16,27 @@ subject to the following restrictions:
 
 #include "btBulletDynamicsCommon.h"
 #include <stdio.h>
+#include <emscripten.h>
 
 /// This is a Hello World program for running a basic Bullet physics simulation
 
+void stepWorld(btDynamicsWorld* world) {
+	auto volatile realWorld = world;
+	EM_ASM(
+		console.log("world");
+		Module['cyberdwarf'].dump_tracked_var("world");
+	);
+
+	realWorld->stepSimulation(1.f/60.f,10);
+}
+
 int main(int argc, char** argv)
 {
+
+  EM_ASM(
+		Module['cyberdwarf'].initialize_debugger();
+		Module['cyberdwarf'].enable_var_tracker();
+	);
 
 	int i;
 
@@ -94,7 +110,7 @@ int main(int argc, char** argv)
 			colShape->calculateLocalInertia(mass,localInertia);
 
 			startTransform.setOrigin(btVector3(2,10,0));
-		
+
 			//using motionstate is recommended, it provides interpolation capabilities, and only synchronizes 'active' objects
 			btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
 			btRigidBody::btRigidBodyConstructionInfo rbInfo(mass,myMotionState,colShape,localInertia);
@@ -111,8 +127,7 @@ int main(int argc, char** argv)
 
 	for (i=0;i<135;i++) // XXX Emscripten
 	{
-		dynamicsWorld->stepSimulation(1.f/60.f,10);
-		
+		stepWorld(dynamicsWorld);
 		//print positions of all objects
 		for (int j=dynamicsWorld->getNumCollisionObjects()-1; j>=0 ;j--)
 		{
@@ -169,4 +184,3 @@ int main(int argc, char** argv)
 	collisionShapes.clear();
 
 }
-
